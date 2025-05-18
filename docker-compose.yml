@@ -1,0 +1,41 @@
+services:
+  nebus-db:
+    container_name: nebus-db
+    hostname: db-host
+    image: postgres:16-alpine
+    restart: always
+    env_file: .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 10s
+      retries: 2
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data/
+    networks:
+      - nebus-testing-network
+
+
+  nebus-app:
+    container_name: nebus-app
+    env_file: .env
+    build:
+      dockerfile: Dockerfile
+    command: ./scripts/unicorn.sh
+    depends_on:
+      nebus-db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs:/nebustesting/logs
+    networks:
+      - nebus-testing-network
+
+
+networks:
+  nebus-testing-network:
+    name: nebus-testing-network
+    driver: bridge
