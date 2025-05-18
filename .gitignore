@@ -1,0 +1,7 @@
+.idea/
+volumes/
+.env
+logs/
+__pycache__/
+venv/
+.pytest_cache/
