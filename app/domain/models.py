@@ -1,5 +1,9 @@
 from typing import List
 
+from database import (
+    Base,
+    intpk,
+)
 from sqlalchemy import (
     CheckConstraint,
     Column,
@@ -12,11 +16,6 @@ from sqlalchemy.orm import (
     Mapped,
     mapped_column,
     relationship,
-)
-
-from database import (
-    Base,
-    intpk,
 )
 
 organization_activity = Table(

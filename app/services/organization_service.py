@@ -2,14 +2,19 @@ import logging
 
 from domain.schemas import OrganizationRead
 from protocols.storage import Storage
-from services.exceptions import StorageInternalException, OrganizationNotFoundException
+from services.exceptions import (
+    OrganizationNotFoundException,
+    StorageInternalException,
+)
 
 
 class CustomOrganizationService:
     def __init__(self, storage: Storage):
         self.storage = storage
 
-    async def get_organizations_by_building_id_with_pagination(self, building_id: int, page: int, limit: int) -> list[dict]:
+    async def get_organizations_by_building_id_with_pagination(
+        self, building_id: int, page: int, limit: int
+    ) -> list[dict]:
         """
         Returns a list of organizations by building id with pagination
         Args:
@@ -21,10 +26,14 @@ class CustomOrganizationService:
             list[dict]: List of organizations
         """
         try:
-            organizations_dto: list[OrganizationRead] = await self.storage.get_organizations_by_building_id_with_pagination(building_id, page, limit)
+            organizations_dto: list[OrganizationRead] = (
+                await self.storage.get_organizations_by_building_id_with_pagination(building_id, page, limit)
+            )
 
         except Exception as exc:
-            logging.error(f"Error while getting organizations from storage by building id {building_id} with pagination - {exc}")
+            logging.error(
+                f"Error while getting organizations from storage by building id {building_id} with pagination - {exc}"
+            )
             raise StorageInternalException(message="Error while getting organizations from storage by building id")
 
         if not organizations_dto:
@@ -34,7 +43,9 @@ class CustomOrganizationService:
 
         return organizations
 
-    async def get_organizations_by_activity_id_with_pagination(self, activity_id: int, page: int, limit: int) -> list[dict]:
+    async def get_organizations_by_activity_id_with_pagination(
+        self, activity_id: int, page: int, limit: int
+    ) -> list[dict]:
         """
         Returns a list of organizations by activity id with pagination
         Args:
@@ -46,9 +57,13 @@ class CustomOrganizationService:
             list[dict]: List of organizations
         """
         try:
-            organizations_dto: list[OrganizationRead] = await self.storage.get_organizations_by_activity_id_with_pagination(activity_id, page, limit)
+            organizations_dto: list[OrganizationRead] = (
+                await self.storage.get_organizations_by_activity_id_with_pagination(activity_id, page, limit)
+            )
         except Exception as exc:
-            logging.error(f"Error while getting organizations from storage by activity id {activity_id} with pagination - {exc}")
+            logging.error(
+                f"Error while getting organizations from storage by activity id {activity_id} with pagination - {exc}"
+            )
             raise StorageInternalException(message="Error while getting organizations from storage by activity id")
 
         if not organizations_dto:
@@ -118,11 +133,15 @@ class CustomOrganizationService:
             list[dict]: List of organizations
         """
         try:
-            organizations_dto: list[OrganizationRead] = await self.storage.get_organizations_in_radius_with_pagination(latitude, longitude, radius, page, limit)
+            organizations_dto: list[OrganizationRead] = await self.storage.get_organizations_in_radius_with_pagination(
+                latitude, longitude, radius, page, limit
+            )
 
         except Exception as exc:
             logging.error(f"Error while getting organizations from storage in radius with pagination - {exc}")
-            raise StorageInternalException(message="Error while getting organizations from storage in radius with pagination")
+            raise StorageInternalException(
+                message="Error while getting organizations from storage in radius with pagination"
+            )
 
         if not organizations_dto:
             raise OrganizationNotFoundException()
@@ -147,10 +166,14 @@ class CustomOrganizationService:
             list[dict]: List of organizations
         """
         try:
-            organizations_dto: list[OrganizationRead] = await self.storage.get_organizations_in_bbox_with_pagination(lat_min, lon_min, lat_max, lon_max, page, limit)
+            organizations_dto: list[OrganizationRead] = await self.storage.get_organizations_in_bbox_with_pagination(
+                lat_min, lon_min, lat_max, lon_max, page, limit
+            )
         except Exception as exc:
             logging.error(f"Error while getting organizations from storage in bounding box with pagination - {exc}")
-            raise StorageInternalException(message="Error while getting organizations from storage in bounding box with pagination")
+            raise StorageInternalException(
+                message="Error while getting organizations from storage in bounding box with pagination"
+            )
 
         if not organizations_dto:
             raise OrganizationNotFoundException()
@@ -172,10 +195,16 @@ class CustomOrganizationService:
             list[dict]: List of organizations
         """
         try:
-            organizations_dto: list[OrganizationRead] = await self.storage.get_organizations_by_nested_activity_id_with_pagination(activity_id, page, limit)
+            organizations_dto: list[OrganizationRead] = (
+                await self.storage.get_organizations_by_nested_activity_id_with_pagination(activity_id, page, limit)
+            )
         except Exception as exc:
-            logging.error(f"Error while getting organizations from storage by nested activity id with pagination - {exc}")
-            raise StorageInternalException(message="Error while getting organizations from storage by nested activity id with pagination")
+            logging.error(
+                f"Error while getting organizations from storage by nested activity id with pagination - {exc}"
+            )
+            raise StorageInternalException(
+                message="Error while getting organizations from storage by nested activity id with pagination"
+            )
 
         if not organizations_dto:
             raise OrganizationNotFoundException()

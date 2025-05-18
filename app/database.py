@@ -1,9 +1,10 @@
 import contextlib
 import logging
-from datetime import datetime
-from typing import Annotated, AsyncIterator
+from typing import (
+    Annotated,
+    AsyncIterator,
+)
 
-from sqlalchemy import text
 from sqlalchemy.ext.asyncio import (
     AsyncConnection,
     AsyncEngine,
@@ -11,7 +12,10 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
-from sqlalchemy.orm import declarative_base, mapped_column
+from sqlalchemy.orm import (
+    declarative_base,
+    mapped_column,
+)
 
 Base = declarative_base()
 
@@ -20,6 +24,7 @@ intpk = Annotated[int, mapped_column(primary_key=True, autoincrement=True, index
 
 class DatabaseSessionManager:
     """Manages database sessions with a singleton pattern"""
+
     def __init__(self):
         self.engine: AsyncEngine | None = None
         self.sessionmaker: async_sessionmaker | None = None
