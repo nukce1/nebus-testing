@@ -1,3 +1,7 @@
+from domain.adapters import (
+    organization_adapter,
+    organizations_adapter,
+)
 from domain.models import (
     Activity,
     ActivityClosure,
@@ -51,21 +55,12 @@ class PostgresStorage:
 
         result = await self.session.execute(query)
 
-        organizations_orm = list(result.scalars().all())
+        organizations_orm = result.scalars().all()
 
         if not result:
             return
 
-        organizations_dto = [
-            OrganizationRead(
-                id=organization.id,
-                name=organization.name,
-                phone=organization.phone,
-                building_address=organization.building.address,
-                activities=[activity.name for activity in organization.activities],
-            )
-            for organization in organizations_orm
-        ]
+        organizations_dto = organizations_adapter.validate_python(organizations_orm)
 
         return organizations_dto
 
@@ -96,21 +91,12 @@ class PostgresStorage:
 
         result = await self.session.execute(query)
 
-        organizations_orm = list(result.scalars().all())
+        organizations_orm = result.scalars().all()
 
         if not result:
             return
 
-        organizations_dto = [
-            OrganizationRead(
-                id=organization.id,
-                name=organization.name,
-                phone=organization.phone,
-                building_address=organization.building.address,
-                activities=[activity.name for activity in organization.activities],
-            )
-            for organization in organizations_orm
-        ]
+        organizations_dto = organizations_adapter.validate_python(organizations_orm)
 
         return organizations_dto
 
@@ -136,13 +122,7 @@ class PostgresStorage:
         if not organization_orm:
             return
 
-        organization_dto = OrganizationRead(
-            id=organization_orm.id,
-            name=organization_orm.name,
-            phone=organization_orm.phone,
-            building_address=organization_orm.building.address,
-            activities=[activity.name for activity in organization_orm.activities],
-        )
+        organization_dto = organization_adapter.validate_python(organization_orm)
 
         return organization_dto
 
@@ -168,13 +148,7 @@ class PostgresStorage:
         if not organization_orm:
             return
 
-        organization_dto = OrganizationRead(
-            id=organization_orm.id,
-            name=organization_orm.name,
-            phone=organization_orm.phone,
-            building_address=organization_orm.building.address,
-            activities=[activity.name for activity in organization_orm.activities],
-        )
+        organization_dto = organization_adapter.validate_python(organization_orm)
 
         return organization_dto
 
@@ -215,21 +189,12 @@ class PostgresStorage:
 
         result = await self.session.execute(query)
 
-        organizations_orm = list(result.scalars().all())
+        organizations_orm = result.scalars().all()
 
         if not result:
             return
 
-        organizations_dto = [
-            OrganizationRead(
-                id=organization.id,
-                name=organization.name,
-                phone=organization.phone,
-                building_address=organization.building.address,
-                activities=[activity.name for activity in organization.activities],
-            )
-            for organization in organizations_orm
-        ]
+        organizations_dto = organizations_adapter.validate_python(organizations_orm)
 
         return organizations_dto
 
@@ -261,21 +226,12 @@ class PostgresStorage:
 
         result = await self.session.execute(query)
 
-        organizations_orm = list(result.scalars().all())
+        organizations_orm = result.scalars().all()
 
         if not result:
             return
 
-        organizations_dto = [
-            OrganizationRead(
-                id=organization.id,
-                name=organization.name,
-                phone=organization.phone,
-                building_address=organization.building.address,
-                activities=[activity.name for activity in organization.activities],
-            )
-            for organization in organizations_orm
-        ]
+        organizations_dto = organizations_adapter.validate_python(organizations_orm)
 
         return organizations_dto
 
@@ -312,20 +268,11 @@ class PostgresStorage:
 
         result = await self.session.execute(query)
 
-        organizations_orm = list(result.scalars().all())
+        organizations_orm = result.scalars().all()
 
         if not result:
             return
 
-        organizations_dto = [
-            OrganizationRead(
-                id=organization.id,
-                name=organization.name,
-                phone=organization.phone,
-                building_address=organization.building.address,
-                activities=[activity.name for activity in organization.activities],
-            )
-            for organization in organizations_orm
-        ]
+        organizations_dto = organizations_adapter.validate_python(organizations_orm)
 
         return organizations_dto
